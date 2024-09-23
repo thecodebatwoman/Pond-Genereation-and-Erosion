@@ -1,17 +1,7 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
 import numpy as np
 from matplotlib import pyplot
 from scipy import ndimage as ndi
 from skimage import morphology
-
-
-# In[ ]:
-
 
 def generate_pond():
     # randomly genterate a pond
@@ -27,10 +17,6 @@ def generate_pond():
     pond_f = morphology.binary_opening(pond_e,morphology.disk(20))
     return(pond_f)
 
-
-# In[ ]:
-
-
 def pond_drying_over_time(image):
 
     new_frames = np.array([image]) # new image array with staring image to add subsequent images to
@@ -43,9 +29,6 @@ def pond_drying_over_time(image):
         new_frames = np.vstack([new_frames, eroded_frame_a]) # store new eroded images in a stack along the first axis (time)
 
     return(new_frames)
-
-
-# In[ ]:
 
 
 def find_edge(image):
@@ -87,10 +70,6 @@ def find_edge(image):
 
     return(drop_edge_x_d,drop_edge_y_d)
 
-
-# In[ ]:
-
-
 def edge_stack(image_stack):
 
     drop_edge_xs = [] # create empty array to store data for each iteration
@@ -104,9 +83,6 @@ def edge_stack(image_stack):
         drop_edge_ys.append(drop_edge_y)
 
     return(drop_edge_xs, drop_edge_ys)
-
-
-# In[ ]:
 
 
 def plot_contour_stack(image_stack):
@@ -126,33 +102,15 @@ def plot_contour_stack(image_stack):
         pyplot.plot(drop_edge_x,drop_edge_y, linewidth=0.8, marker='.', ls='', c=( 0, ((i/image_stack.shape[0])),1))
 
 
-# In[ ]:
-
 
 pond = generate_pond()
-
-
-# In[ ]:
-
 
 pyplot.imshow(pond, vmin = 0, vmax = 2, cmap = 'ocean')
 pyplot.title('Randomly Generated Pond')
 
-
-# In[ ]:
-
-
 new_stack = pond_drying_over_time(pond)
 
-
-# In[ ]:
-
-
 drop_edge_xs, drop_edge_ys = edge_stack(new_stack)
-
-
-# In[ ]:
-
 
 j=4 # select a frame to view
 pyplot.imshow(new_stack[j], alpha = 0.5, vmin = 0, vmax = 2, cmap = 'ocean')
@@ -160,14 +118,7 @@ pyplot.imshow(new_stack[j], alpha = 0.5, vmin = 0, vmax = 2, cmap = 'ocean')
 pyplot.plot(drop_edge_xs[j],drop_edge_ys[j], marker='.', ls='', c='k')
 pyplot.title('Edges of Randomly Generated Pond')
 
-
-# In[ ]:
-
-
 plot_contour_stack(new_stack)
-
-
-# In[ ]:
 
 
 
